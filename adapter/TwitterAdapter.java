@@ -15,11 +15,22 @@ public class TwitterAdapter implements SocialMediaManager {
     public TwitterAdapter() {
         this.api = new TwitterApi();
     }
+    
+    private void simularLatencia() {
+        try {
+            System.out.println("  [LATENCIA - " + getPlatformName() + "] Simulando 2 segundos de latencia de rede...");
+            Thread.sleep(2000); 
+            } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); 
+        }
+    }
 
     @Override
     public RespostaUnificada<Publicacao> publicarConteudo(Conteudo conteudo) {
         try {
             String[] twitterPayload = new String[]{conteudo.getTexto(), conteudo.getImagemUrl()};
+            
+            simularLatencia();
             
             String newPostId = api.tweetar(twitterPayload);
             
@@ -36,6 +47,8 @@ public class TwitterAdapter implements SocialMediaManager {
     @Override
     public RespostaUnificada<Estatisticas> obterEstatisticas(String postId) {
         try {
+            simularLatencia();
+            
             int[] metrics = api.obterMetrics(postId); 
             
             Estatisticas estatisticas = new Estatisticas(metrics[0], metrics[1] + metrics[2], metrics[2]);

@@ -16,6 +16,15 @@ public class LinkedInAdapter implements SocialMediaManager {
         this.api = new LinkedInApi();
     }
 
+    private void simularLatencia() {
+        try {
+            System.out.println("  [LATENCIA - " + getPlatformName() + "] Simulando 2 segundos de latencia de rede...");
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); 
+        }
+    }
+
     @Override
     public RespostaUnificada<Publicacao> publicarConteudo(Conteudo conteudo) {
         try {
@@ -24,13 +33,14 @@ public class LinkedInAdapter implements SocialMediaManager {
             config.postText = conteudo.getTexto();
             config.linkUrl = conteudo.getImagemUrl(); 
             
+            simularLatencia();
+
             String newPostId = api.shareUpdate(config);
             
             Publicacao publicacao = new Publicacao(newPostId, "COMPARTILHADO", getPlatformName());
             return RespostaUnificada.sucesso("Atualizacao no LinkedIn compartilhada com sucesso.", publicacao);
             
         } catch (NullPointerException e) {
-           
             return RespostaUnificada.falha("Erro de validacao no LinkedIn: " + e.getMessage());
         } catch (Exception e) {
             return RespostaUnificada.falha("Erro desconhecido ao publicar no LinkedIn: " + e.getMessage());
@@ -40,10 +50,10 @@ public class LinkedInAdapter implements SocialMediaManager {
     @Override
     public RespostaUnificada<Estatisticas> obterEstatisticas(String postId) {
         try {
-    
+            simularLatencia();
+            
             LinkedInApi.LinkedInStats metrics = api.fetchMetrics(postId); 
             
-           
             Estatisticas estatisticas = new Estatisticas(metrics.clicks, metrics.impressions, 0); 
             
             return RespostaUnificada.sucesso("Metricas do LinkedIn obtidas com sucesso.", estatisticas);

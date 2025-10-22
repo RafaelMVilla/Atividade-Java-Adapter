@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+
 public class SocialMediaIntegrationApp {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -61,21 +62,22 @@ public class SocialMediaIntegrationApp {
         
         Conteudo conteudo = new Conteudo(texto, imagemUrl.isEmpty() ? null : imagemUrl);
 
-        // Obtem o Adapter (Factory Method - Thread-Safe)
         SocialMediaManager manager = SocialMediaAdapterFactory.getAdapter(plataforma);
         
         System.out.println("\n[CLIENTE] Tentando publicar em " + manager.getPlatformName() + "...");
         
-        // Chamada unificada
+        // Mensagem de processamento antes de chamar a API 
+        System.out.println("Aguarde... processando a solicitacao e aguardando a resposta da API.");
+        
+        // Chamada unificada 
         RespostaUnificada<Publicacao> resposta = manager.publicarConteudo(conteudo);
 
-        // Tratamento da Resposta Unificada
+        // Tratamento da Resposta Unificada 
         if (resposta.isSucesso()) {
             Publicacao pub = resposta.getDados();
             System.out.println("\n--- SUCESSO DE PUBLICACAO ---");
             System.out.println("Mensagem: " + resposta.getMensagem());
             System.out.println(pub);
-
             publicacoesAtivas.put(pub.getPublicacaoId(), pub.getPlataforma()); 
         } else {
             System.out.println("\n--- FALHA NA PUBLICACAO ---");
@@ -111,15 +113,17 @@ public class SocialMediaIntegrationApp {
             String plataformaStr = publicacoesAtivas.get(postId);
             SocialMediaPlatform plataforma = SocialMediaPlatform.valueOf(plataformaStr.toUpperCase());
 
-            // Obtem o Adapter (Factory Method - Thread-Safe)
             SocialMediaManager manager = SocialMediaAdapterFactory.getAdapter(plataforma);
 
             System.out.println("\n[CLIENTE] Tentando obter estatisticas para ID " + postId + " em " + manager.getPlatformName() + "...");
             
-            // Chamada unificada
+            // Mensagem de processamento antes de chamar a API 
+            System.out.println("Aguarde... processando a solicitacao e aguardando a resposta da API.");
+
+            // Chamada unificada 
             RespostaUnificada<Estatisticas> resposta = manager.obterEstatisticas(postId);
 
-            // Tratamento da Resposta Unificada
+            // Tratamento da Resposta Unificada 
             if (resposta.isSucesso()) {
                 System.out.println("\n--- SUCESSO DE ESTATISTICAS ---");
                 System.out.println("Mensagem: " + resposta.getMensagem());

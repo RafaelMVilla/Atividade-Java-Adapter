@@ -10,13 +10,21 @@ import target.SocialMediaManager;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class InstagramAdapter implements SocialMediaManager {
     
     private final InstagramApi api; 
 
     public InstagramAdapter() {
         this.api = new InstagramApi();
+    }
+
+    private void simularLatencia() {
+        try {
+            System.out.println("  [LATENCIA - " + getPlatformName() + "] Simulando 2 segundos de latencia de rede...");
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); 
+        }
     }
 
     @Override
@@ -29,6 +37,8 @@ public class InstagramAdapter implements SocialMediaManager {
             if (conteudo.getImagemUrl() == null || conteudo.getImagemUrl().isEmpty()) {
                 return RespostaUnificada.falha("Erro de validacao no Instagram: Publicacao de imagem/video requer uma URL.");
             }
+            
+            simularLatencia();
             
             String newPostId = api.uploadPhoto(instaPayload);
             
@@ -45,6 +55,8 @@ public class InstagramAdapter implements SocialMediaManager {
     @Override
     public RespostaUnificada<Estatisticas> obterEstatisticas(String postId) {
         try {
+            simularLatencia();
+            
             Map<String, Integer> insights = api.getInsights(postId); 
             
             int likes = insights.getOrDefault("likesCount", 0);
