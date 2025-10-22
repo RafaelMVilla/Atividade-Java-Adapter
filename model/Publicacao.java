@@ -2,9 +2,7 @@ package model;
 
 import java.util.Objects;
 
-/**
- * Modelo de dados para o resultado de uma publicacao.
- */
+
 public class Publicacao {
     private final String publicacaoId;
     private final String status;
@@ -33,5 +31,4 @@ public class Publicacao {
         return "Publicacao [ID=" + publicacaoId + ", Status='" + status + "', Plataforma='" + plataforma + "']";
     }
     
-    // Simplificando equals/hashCode para foco no exercicio, mas idealmente seriam inclusos.
 }

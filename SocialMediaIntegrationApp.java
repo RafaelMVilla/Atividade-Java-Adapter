@@ -11,13 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-/**
- * Classe principal para demonstracao e interface de terminal.
- */
 public class SocialMediaIntegrationApp {
 
     private static final Scanner scanner = new Scanner(System.in);
-    // Mapa para armazenar publicacoes ativas (para obter estatisticas depois)
     private static final Map<String, String> publicacoesAtivas = new HashMap<>(); 
 
     public static void main(String[] args) {
@@ -63,7 +59,6 @@ public class SocialMediaIntegrationApp {
         System.out.print("Digite a URL da imagem/link (Deixe vazio se nao houver): ");
         String imagemUrl = scanner.nextLine();
         
-        // Se a URL estiver vazia, use null
         Conteudo conteudo = new Conteudo(texto, imagemUrl.isEmpty() ? null : imagemUrl);
 
         // Obtem o Adapter (Factory Method - Thread-Safe)
@@ -74,13 +69,13 @@ public class SocialMediaIntegrationApp {
         // Chamada unificada
         RespostaUnificada<Publicacao> resposta = manager.publicarConteudo(conteudo);
 
-        // Tratamento da Resposta Unificada (Tarefa 2)
+        // Tratamento da Resposta Unificada
         if (resposta.isSucesso()) {
             Publicacao pub = resposta.getDados();
             System.out.println("\n--- SUCESSO DE PUBLICACAO ---");
             System.out.println("Mensagem: " + resposta.getMensagem());
             System.out.println(pub);
-            // Armazena para poder buscar estatisticas depois
+
             publicacoesAtivas.put(pub.getPublicacaoId(), pub.getPlataforma()); 
         } else {
             System.out.println("\n--- FALHA NA PUBLICACAO ---");
@@ -124,7 +119,7 @@ public class SocialMediaIntegrationApp {
             // Chamada unificada
             RespostaUnificada<Estatisticas> resposta = manager.obterEstatisticas(postId);
 
-            // Tratamento da Resposta Unificada (Tarefa 2)
+            // Tratamento da Resposta Unificada
             if (resposta.isSucesso()) {
                 System.out.println("\n--- SUCESSO DE ESTATISTICAS ---");
                 System.out.println("Mensagem: " + resposta.getMensagem());

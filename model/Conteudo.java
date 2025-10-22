@@ -2,10 +2,6 @@ package model;
 
 import java.util.Objects;
 
-/**
- * Modelo de dados para o conteúdo a ser publicado.
- * Implementa hashCode e equals para segurança e comparacao.
- */
 public class Conteudo {
     private final String texto;
     private final String imagemUrl;

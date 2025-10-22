@@ -2,9 +2,7 @@ package model;
 
 import java.util.Objects;
 
-/**
- * Modelo de dados para estatísticas de uma publicacao.
- */
+
 public class Estatisticas {
     private final int likes;
     private final int views;
@@ -33,5 +31,4 @@ public class Estatisticas {
         return "Estatisticas [Likes=" + likes + ", Views=" + views + ", Comentarios=" + comentarios + "]";
     }
     
-    // Simplificando equals/hashCode para foco no exercicio, mas idealmente seriam inclusos.
 }

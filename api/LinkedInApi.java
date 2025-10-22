@@ -24,7 +24,7 @@ public class LinkedInApi {
             throw new NullPointerException("LinkedIn: ID da empresa e texto sao obrigatorios.");
         }
         System.out.println("  [LINKEDIN API] Compartilhando atualizacao para " + config.companyId + ": " + config.postText);
-        // Simula o retorno de um ID.
+        
         return "LKD-" + System.currentTimeMillis();
     }
 
